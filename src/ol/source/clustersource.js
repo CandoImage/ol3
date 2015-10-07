@@ -65,12 +65,29 @@ goog.inherits(ol.source.Cluster, ol.source.Vector);
 /**
  * Get a reference to the wrapped source.
  * @return {ol.source.Vector} Source.
- * @api
  */
 ol.source.Cluster.prototype.getSource = function() {
   return this.source_;
 };
 
+/**
+ * Updates the cluster distance and triggers clustering.
+ * @api
+ */
+ol.source.Cluster.prototype.setDistance = function(distance) {
+  if (this.distance_ != distance) {
+    this.distance_ = distance;
+    this.onSourceChange_();
+  }
+};
+
+/**
+ * Get the current clustering distance.
+ * @api
+ */
+ol.source.Cluster.prototype.getDistance = function() {
+  return this.distance_;
+};
 
 /**
  * @inheritDoc
@@ -92,8 +109,8 @@ ol.source.Cluster.prototype.loadFeatures = function(extent, resolution,
  * @private
  */
 ol.source.Cluster.prototype.onSourceChange_ = function() {
-  this.clear();
   this.cluster_();
+  this.clear();
   this.addFeatures(this.features_);
   this.changed();
 };
